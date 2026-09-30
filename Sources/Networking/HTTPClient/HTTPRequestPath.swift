@@ -241,7 +241,7 @@ extension HTTPRequest.Path: HTTPRequestPath {
     }
 
     private static let fallbackServerHostURLs = [
-        URL(string: "https://api-production.8-lives-cat.io")
+        URL(string: "https://api.revenuedot.app")
     ]
 
     var fallbackRelativePath: String? {
@@ -667,7 +667,7 @@ extension HTTPRequest.Path: HTTPRequestPath {
 extension HTTPRequest.FallbackPath: HTTPRequestPath {
 
     // swiftlint:disable:next force_unwrapping
-    static let serverHostURL = URL(string: "https://api-production.8-lives-cat.io")!
+    static let serverHostURL = URL(string: "https://api.revenuedot.app")!
 
     var isFallbackHostPath: Bool {
         switch self {

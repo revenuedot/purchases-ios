@@ -82,7 +82,7 @@ class SystemInfo {
     private static let _proxyURL: Atomic<URL?> = nil
 
     // swiftlint:disable:next force_unwrapping
-    static let defaultApiBaseURL = URL(string: "https://api.revenuecat.com")!
+    static let defaultApiBaseURL = URL(string: "https://api.revenuedot.app")!
     private static let _apiBaseURL: Atomic<URL> = .init(defaultApiBaseURL)
 
     private lazy var _isSandbox: Bool = {
