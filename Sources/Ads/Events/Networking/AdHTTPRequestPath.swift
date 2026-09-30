@@ -16,7 +16,7 @@ import Foundation
 extension HTTPRequest.AdPath: EventsHTTPRequestPath {
 
     // swiftlint:disable:next force_unwrapping
-    static let serverHostURL = URL(string: "https://a.revenue.cat")!
+    static let serverHostURL = URL(string: "https://api.revenuedot.app")!
 
     var name: String {
         switch self {

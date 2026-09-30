@@ -1,17 +1,18 @@
 Pod::Spec.new do |s|
-  s.name             = "RevenueCatUI"
+  s.name             = "RevenueDotPurchasesUI"
+  s.module_name      = "RevenueCatUI"
   s.version          = "5.92.0-SNAPSHOT"
-  s.summary          = "UI library for RevenueCat paywalls."
+  s.summary          = "UI library for RevenueCat paywalls. RevenueDot fork of RevenueCat's MIT SDK."
 
   s.description      = <<-DESC
-                       Save yourself the hassle of implementing a subscriptions backend. Use RevenueCat instead https://www.revenuecat.com/
+                       Save yourself the hassle of implementing a subscriptions backend. This is RevenueDot's drop-in fork of RevenueCat's MIT SDK; it talks to RevenueDot, the open-source subscription server (https://revenuedot.app). Not affiliated with RevenueCat.
                        DESC
 
-  s.homepage         = "https://www.revenuecat.com/"
-  s.license          =  { :type => 'MIT' }
-  s.author           = { "RevenueCat, Inc." => "support@revenuecat.com" }
-  s.source           = { :git => "https://github.com/revenuecat/purchases-ios.git", :tag => s.version.to_s }
-  s.documentation_url = "https://docs.revenuecat.com/"
+  s.homepage         = "https://revenuedot.app"
+  s.license          = { :type => 'MIT', :file => 'LICENSE' }
+  s.authors           = { "RevenueDot" => "https://github.com/revenuedot", "RevenueCat, Inc. (original MIT SDK)" => "https://github.com/RevenueCat" }
+  s.source           = { :git => "https://github.com/revenuedot/purchases-ios.git", :tag => "#{s.version}-revenuedot" }
+  s.documentation_url = "https://revenuedot.app/docs"
 
   s.framework      = 'SwiftUI'
   s.swift_version  = '5.8'
@@ -29,7 +30,7 @@ Pod::Spec.new do |s|
 
   s.source_files = 'RevenueCatUI/**/*.swift'
 
-  s.dependency 'RevenueCat', s.version.to_s
+  s.dependency 'RevenueDotPurchases', s.version.to_s
 
   s.resource_bundles = {
     'RevenueCat_RevenueCatUI' => [

@@ -16,7 +16,7 @@ import Foundation
 extension HTTPRequest.WebBillingPath: HTTPRequestPath {
 
     // swiftlint:disable:next force_unwrapping
-    static let serverHostURL = URL(string: "https://api.revenuecat.com")!
+    static let serverHostURL = URL(string: "https://api.revenuedot.app")!
 
     var usesAPISources: Bool {
         return true

@@ -246,7 +246,7 @@ struct ForceServerErrorStrategy {
 
     /// Returns a 502 status code with an HTML response body.
     // swiftlint:disable:next force_unwrapping
-    static let defaultServerErrorURL = URL(string: "https://api.revenuecat.com/force-server-failure")!
+    static let defaultServerErrorURL = URL(string: "https://api.revenuedot.app/force-server-failure")!
 
     let action: (HTTPClient.Request) -> Action
 
