@@ -1,0 +1,84 @@
+# RevenueDot fork: publish RevenueDotPurchases and RevenueDotPurchasesUI to CocoaPods trunk.
+# Runs on release tags <version>-revenuedot cut from revenuedot/release-<version>.
+# Not part of upstream RevenueCat; kept as a plain commit on the fork branches.
+name: RevenueDot release (CocoaPods)
+
+on:
+  push:
+    tags: ["*-revenuedot"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing release tag to publish, e.g. 5.91.0-revenuedot"
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: revenuedot-release-${{ github.event.inputs.tag || github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  cocoapods:
+    runs-on: macos-15
+    environment: production
+    timeout-minutes: 180
+    env:
+      LANG: en_US.UTF-8
+      LC_ALL: en_US.UTF-8
+      XCODE_VERSION: "16.4"
+      TAG: ${{ github.event.inputs.tag || github.ref_name }}
+      PODS: "RevenueDotPurchases RevenueDotPurchasesUI"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: refs/tags/${{ env.TAG }}
+
+      - name: Select Xcode
+        run: |
+          sudo xcode-select -s "/Applications/Xcode_${XCODE_VERSION}.app"
+          xcodebuild -version
+          pod --version
+
+      - name: Check the tag matches the podspec versions
+        run: |
+          case "$TAG" in *-revenuedot) ;; *) echo "::error::Tag $TAG must be <version>-revenuedot"; exit 1 ;; esac
+          want="${TAG%-revenuedot}"
+          [ "$(cat .version)" = "$want" ] || { echo "::error::.version is $(cat .version), tag says $want"; exit 1; }
+          for pod in $PODS; do
+            json="$(pod ipc spec "$pod.podspec")"
+            v="$(echo "$json" | jq -r .version)"; t="$(echo "$json" | jq -r .source.tag)"
+            echo "$pod: version $v, source tag $t, module $(echo "$json" | jq -r .module_name)"
+            [ "$v" = "$want" ] || { echo "::error::$pod.podspec version is $v, tag says $want"; exit 1; }
+            [ "$t" = "$TAG" ] || { echo "::error::$pod.podspec source tag is $t, expected $TAG"; exit 1; }
+          done
+
+      - name: Build the Swift package (RevenueCat, RevenueCatUI)
+        run: |
+          swift build --target RevenueCat
+          swift build --target RevenueCatUI
+
+      # Lints both pods on every platform before anything is published, so a failure
+      # cannot leave RevenueDotPurchases on trunk without RevenueDotPurchasesUI.
+      - name: Lint podspecs
+        run: |
+          pod lib lint RevenueDotPurchases.podspec --allow-warnings --fail-fast
+          pod lib lint RevenueDotPurchasesUI.podspec --allow-warnings --fail-fast --include-podspecs=RevenueDotPurchases.podspec
+
+      - name: Push to CocoaPods trunk
+        env:
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+        run: |
+          version="${TAG%-revenuedot}"
+          on_trunk() { [ "$(curl -s -o /dev/null -w '%{http_code}' "https://trunk.cocoapods.org/api/v1/pods/$1/versions/$version")" = "200" ]; }
+          for pod in $PODS; do
+            if on_trunk "$pod"; then echo "$pod $version is already on trunk, skipping"; continue; fi
+            # The UI pod resolves RevenueDotPurchases from trunk, which can lag a few minutes behind a push.
+            for attempt in 1 2 3 4 5 6; do
+              if pod trunk push "$pod.podspec" --allow-warnings --synchronous; then break; fi
+              if on_trunk "$pod"; then break; fi
+              [ "$attempt" = 6 ] && { echo "::error::pod trunk push $pod failed 6 times"; exit 1; }
+              echo "Push of $pod failed (attempt $attempt); retrying in 120 s"; sleep 120
+            done
+          done
