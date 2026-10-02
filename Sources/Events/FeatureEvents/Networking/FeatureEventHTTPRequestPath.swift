@@ -16,7 +16,7 @@ import Foundation
 extension HTTPRequest.FeatureEventsPath: EventsHTTPRequestPath {
 
     // swiftlint:disable:next force_unwrapping
-    static let serverHostURL = URL(string: "https://api-paywalls.revenuecat.com")!
+    static let serverHostURL = URL(string: "https://api.revenuedot.app")!
 
     var name: String {
         switch self {

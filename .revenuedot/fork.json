@@ -1,0 +1,17 @@
+{
+  "note": "Fork of RevenueCat's MIT SDK, maintained by RevenueDot, not affiliated with RevenueCat.",
+  "pipeline": "https://github.com/revenuedot/revenuedot/tree/main/scripts/forks",
+  "rules": "scripts/forks/rules/purchases-ios.json",
+  "rulesSha256": "ae319178dbc71cbd051a48196c73663dcd024d02cc71a26ac1c9b1d207f677d3",
+  "upstream": {
+    "repo": "https://github.com/RevenueCat/purchases-ios",
+    "mergeBase": "f9d2f6cb94133377abd4e6bccdda756621913344"
+  },
+  "apiHost": "https://api.revenuedot.app",
+  "signingPublicKey": "gXdn2hmqR/TbdtQwK02laE0YgFz0Rtf918LICLrgZhg=",
+  "publishes": [
+    "CocoaPods RevenueDotPurchases (module RevenueCat)",
+    "CocoaPods RevenueDotPurchasesUI (module RevenueCatUI)",
+    "SPM https://github.com/revenuedot/purchases-ios (products RevenueCat, RevenueCatUI), tags <version>-revenuedot"
+  ]
+}

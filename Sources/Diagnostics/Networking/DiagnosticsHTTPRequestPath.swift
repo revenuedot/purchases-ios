@@ -16,7 +16,7 @@ import Foundation
 extension HTTPRequest.DiagnosticsPath: HTTPRequestPath {
 
     // swiftlint:disable:next force_unwrapping
-    static let serverHostURL = URL(string: "https://api-diagnostics.revenuecat.com")!
+    static let serverHostURL = URL(string: "https://api.revenuedot.app")!
 
     var authenticated: Bool {
         switch self {

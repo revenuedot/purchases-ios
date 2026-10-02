@@ -147,7 +147,7 @@ final class Signing: SigningType {
     /// The actual algorithm used to verify signatures.
     fileprivate typealias Algorithm = Curve25519.Signing.PublicKey
 
-    private static let publicKey = "UC1upXWg5QVmyOSwozp755xLqquBKjjU+di6U8QhMlM="
+    private static let publicKey = "gXdn2hmqR/TbdtQwK02laE0YgFz0Rtf918LICLrgZhg="
 
 }
 
