@@ -2,7 +2,7 @@
   "note": "Fork of RevenueCat's MIT SDK, maintained by RevenueDot, not affiliated with RevenueCat.",
   "pipeline": "https://github.com/revenuedot/revenuedot/tree/main/scripts/forks",
   "rules": "scripts/forks/rules/purchases-ios.json",
-  "rulesSha256": "ed02eee3dde25461eb4a7635a829498e3c53fcf1e06a7fa306cb30ac714603cd",
+  "rulesSha256": "e4a8443a6162ada73681b53500d5d06f764e63cd4c993d35275610e3c58c914a",
   "upstream": {
     "repo": "https://github.com/RevenueCat/purchases-ios",
     "mergeBase": "7aae2204f1266dbbee9aec634612dbf6a902a6a6"
